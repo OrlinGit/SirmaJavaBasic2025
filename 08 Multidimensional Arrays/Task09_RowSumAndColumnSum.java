@@ -1,5 +1,9 @@
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
 public class Task09_RowSumAndColumnSum {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -12,46 +16,54 @@ public class Task09_RowSumAndColumnSum {
 	}
 
 
-
-public static int[][] fillMatrix(int rows, int columns) {
-	int[][] fullMatrix = new int[rows][columns];
-	int counter = 0;
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			fullMatrix[i][j] = ++counter;
+	public static int[][] fillMatrix(int rows, int columns) {
+		int[][] fullMatrix = new int[rows][columns];
+		int counter = 0;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				fullMatrix[i][j] = ++counter;
+			}
 		}
-	}
-	return fullMatrix;
-}
-
-public static void sumsOfMatrix(int[][] fullMatrix) {
-	ArrayDeque<Integer> rowsQueue = new ArrayDeque<>();
-	ArrayDeque<Integer> columnsQueue = new ArrayDeque<>();
-	int sumRows = 0;
-	int sumColumns = 0;
-	for (int i = 0; i < fullMatrix.length; i++) {
-		for (int j = 0; j < i; j++) {
-			sumRows += fullMatrix[i][j];
-		}
-		rowsQueue.add(sumRows);
+		return fullMatrix;
 	}
 
-	for (int i = 0; i < fullMatrix[0].length; i++) {
-		for (int j = 0; j < fullMatrix[0].length; j++) {
-			sumColumns += fullMatrix[j][i];
+	public static void sumsOfMatrix(int[][] fullMatrix) {
+		ArrayDeque<Integer> rowsQueue = new ArrayDeque<>();
+		ArrayDeque<Integer> columnsQueue = new ArrayDeque<>();
+		for (int i = 0; i < fullMatrix.length; i++) {
+			int sumRows = 0;
+			for (int j = 0; j < fullMatrix[0].length; j++) {
+				sumRows += fullMatrix[i][j];
+			}
+			rowsQueue.add(sumRows);
 		}
-		columnsQueue.add(sumColumns);
-	}
 
-	for (int i = 0; i < rowsQueue.size(); i++) {
+		for (int i = 0; i < fullMatrix[0].length; i++) {
+			int sumColumns = 0;
+			for (int j = 0; j < fullMatrix.length; j++) {
+				sumColumns += fullMatrix[j][i];
+			}
+			columnsQueue.add(sumColumns);
+		}
+		ArrayList<Integer> row = new ArrayList<>();
 		System.out.print("Row sums: ");
-		System.out.println(rowsQueue.poll() + ",");
-	}
+		for (int i = 0; i < fullMatrix.length; i++) {
+			row.add(Integer.valueOf(Integer.toString(rowsQueue.poll())));
+		}
+		String resultRows = row.stream()
+				.map(String::valueOf)
+				.collect(Collectors.joining(","));
+		System.out.println(resultRows);
 
-	for (int i = 0; i < columnsQueue.size(); i++) {
+		ArrayList<Integer> columns = new ArrayList<>();
 		System.out.print("Column sums: ");
-		System.out.print(columnsQueue.poll() + ",");
+		for (int i = 0; i < fullMatrix[0].length; i++) {
+			columns.add(columnsQueue.poll());
+		}
+		String resultColumns = columns.stream()
+				.map(String::valueOf)
+				.collect(Collectors.joining(","));
+		System.out.println(resultColumns);
 	}
-}
 }
 
