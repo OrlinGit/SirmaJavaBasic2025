@@ -27,12 +27,6 @@ public class Task06_PopulationCounter {
 			System.out.println("Enter city information: ");
 			input = sc.nextLine();
 		}
-/*
-		TreeMap<Long, String> orderedCountires = new TreeMap<>(Collections.reverseOrder());
-		for (Map.Entry<String, Long> country : countryPopulation.entrySet()){
-			orderedCountires.put(country.getValue(), country.getKey());
-		}
-*/
 
 			totalPopulation.entrySet().stream().sorted(
 					(a, b) -> {
